@@ -102,7 +102,7 @@ git push origin --delete feat/api
 yarn init
 
 # Dependencies
-yarn add @prisma/client express prisma winston
+yarn add @prisma/client express prisma 
 
 # DevDependencies
 yarn add dotenv nodemon --dev
@@ -113,23 +113,21 @@ npx prisma init
   + **package.json**
 ```json
 {
-  "name": "nodejs_assignment_level2",
+  "name": "nodejs_assignment_level3",
   "version": "1.0.0",
-  "description": "nodejs_assignment_level2",
-  "main": "app.js",
-  "repository": "https://github.com/jovid18/nodejs_assignment_level2.git",
-  "author": "jovid_18 <cshcho99@gmail.com>",
+  "main": "index.js",
+  "repository": "https://github.com/soijeongg/nodejs_assignment_level3.git",
+  "author": "soijeongg <010127js@gmail.com>",
   "license": "MIT",
-  "private": false,
   "type": "module",
   "dependencies": {
     "@prisma/client": "^5.10.2",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
-    "prisma": "^5.10.2",
-    "winston": "^3.11.0"
+    "joi": "^17.12.2",
+    "prisma": "^5.10.2"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
     "nodemon": "^3.1.0"
   }
 }
@@ -144,7 +142,7 @@ npx prisma init
      ```
    * .env 파일 수정
      ```plaintext
-     DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/nodejslv2"
+     DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/nodejslv3"
      PORT=3000
      ```
    * 과제 요구사항에 맞게 프로젝트 폴더 및 파일 생성
@@ -152,19 +150,20 @@ npx prisma init
      ```javascript
      import express from "express";
      import dotenv from "dotenv";
-     // import CommentsRouter from "./routes/comments.router.js";
-     // import ReviewsRouter from "./routes/reviews.router.js";
-
+     //import CategoryRouter from "./routes/category.router.js";
+     //import MenuRouter from "./routes/reviews.router.js";
      dotenv.config();
-
+   
      const app = express();
-     const PORT = process.env.PORT;
-
+     const PORT = process.env;
+   
      app.use(express.json());
+     app.use(express.urlencoded({ extended: false })); 
+   
      app.get("/", (req, res) => {
-       res.send("Hello World!");
+       res.send("<h1>3차과제</h1>");
      });
-
+   
      app.listen(PORT, () => {
        console.log(PORT, "포트로 서버가 열렸어요!");
      });
@@ -183,7 +182,7 @@ npx prisma init
 4. **main/production branch push**
 ### EC2 배포
 1. **EC2 인스턴스 생성**
-* 이름 : nodejslv2
+* 이름 : nodejslv3
 * OS image : Ubuntu
 * 인스턴스 유형: t2.micro
 * 기존 키페어 사용: pem 파일
@@ -204,7 +203,7 @@ npm -v
 3. **프로젝트 클론**
 ``` bash
 # 프로젝트 클론
-git clone https://github.com/jovid18/nodejs_assignment_level2.git
+git clone https://github.com/jovid18/nodejs_assignment_level3.git
 # yarn 설치
 sudo npm install -g yarn
 # 패키지 설치
@@ -231,7 +230,7 @@ git branch
      # 입력 모드로 전환
      i (입력 모드로 전환)
      # .env 내용 붙여넣기
-     # DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/nodejslv2"
+     # DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/nodejslv3"
      # PORT=3000
      #명령 모드로 전환
      esc(명령 모드로 전환)
