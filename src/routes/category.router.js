@@ -81,7 +81,7 @@ if (validationResult.error){
   if (!categoryfind) {
     return res.status(404).json({ message: '존재하지 않는 카테고리입니다' });
   }
-  let updateOne =  prisma.Categories.update({
+  let updateOne =  await prisma.Categories.update({
     data: { name, order },
     where: {
       categoryId: +categoryId,
