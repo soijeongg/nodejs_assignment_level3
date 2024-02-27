@@ -13,8 +13,8 @@ const schemas = Joi.object({
   name: Joi.string().required()
 });
 //카테고리 전체 조회
-router.get('/', async (req, res) => {
-    
+router.get('/', async (req, res, next) => {
+    try{
   let category = await prisma.Categories.findMany({
     select: {
       categoryId: true,
@@ -26,12 +26,15 @@ router.get('/', async (req, res) => {
     },
   });
 return res.status(200).json({data:category})
+    }catch(error){
+      next(error)
+    }
 });
 
 router.post('/', async(req, res,next)=> {
     try{
-    if(! req.body){
-        return res.status(404),json({errorMessage:"데이터 형식이 올바르지 않습니다"})
+    if(!req.body){
+        return res.status(400),json({errorMessage:"데이터 형식이 올바르지 않습니다"})
     }
     let {name} = req.body
     const validationResult = schemas.validate({ name });
@@ -55,7 +58,7 @@ router.put('/:categoryId', async (req, res, next) => {
 try{
   let { categoryId } = req.params;
   const { name, order } = req.body;
-  if (!req.params) {
+  if (!req.params || !req.body) {
     return res
       .status(404)
       .json({ message: '데이터 형식이 올바르지 않습니다.' });
