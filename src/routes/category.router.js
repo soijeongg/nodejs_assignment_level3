@@ -38,6 +38,11 @@ router.post('/', async(req, res,next)=> {
     }
     let {name} = req.body
     const validationResult = schemas.validate({ name });
+    if (validationResult.error) {
+      return res
+        .status(404)
+        .json({ message: '데이터 형식이 올바르지 않습니다.' });
+    }
     const lastCategory = await prisma.Categories.findFirst({
       orderBy: { order: 'desc' }, // 순서대로 정렬하여 가장 마지막 카테고리를 가져옵니다.
     });
@@ -64,6 +69,11 @@ try{
       .json({ message: '데이터 형식이 올바르지 않습니다.' });
   }
 const validationResult = schema.validate({ name, order });
+if (validationResult.error){
+  return res
+      .status(404)
+      .json({ message: '데이터 형식이 올바르지 않습니다.' });
+}
   let categoryfind = await prisma.Categories.findFirst({
     where: { categoryId: +categoryId },
   });
