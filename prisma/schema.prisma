@@ -35,7 +35,7 @@ model Menus {
   description String      @map("description")
   image       String      @map("image")
   price       Int         @map("price")
-  status      MenuStatus  @map("status")
+  status      MenuStatus  @default(FOR_SALE) @map("status")
   order       Int         @map("order") 
   category    Categories  @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
 
