@@ -12,3 +12,20 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Menus {
+  menuId Int @map('userId')
+  categoryId        Int  @id @default(autoincrement())    @map("menuId")
+  name String
+  description String
+  image String
+  price Int
+  status String
+  order Int @map("order)
+
+ 
+  // Users 테이블과 관계를 설정합니다.
+  user Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  category Categories @relation()
+  @@map("UserHistories")
+}
