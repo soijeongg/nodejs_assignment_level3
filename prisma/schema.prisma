@@ -13,32 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Categories {
+  categoryId Int    @id @default(autoincrement()) @map("categoryId")
+  name       String @map("name")
+  order      Int    @map("order")   
 
+  menus      Menus[]
 
-
-model Category {
-  id Int @id @default(autoincrement()) @map("Category_Id")
-  name String @map(name)
-  order int @map(order)   
-
-  Menu     Menu[]
-  @@map("Category") 
+  @@map("Categories") 
 }
 
+enum MenuStatus {
+  FOR_SALE
+  SOLD_OUT
+}
 
 model Menus {
-  menuId Int @map('userId')
-  categoryId        Int  @id @default(autoincrement())    @map("menuId")
-  name String
-  description String
-  image String
-  price Int
-  status String
-  order Int @map("order)
+  menuId      Int         @id @default(autoincrement()) @map("menuId")
+  categoryId  Int         @map("categoryId")
+  name        String      @map("name")
+  description String      @map("description")
+  image       String      @map("image")
+  price       Int         @map("price")
+  status      MenuStatus  @map("status")
+  order       Int         @map("order") 
+  category    Categories  @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
 
- 
-  // Users 테이블과 관계를 설정합니다.
-  user Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  category Categories @relation()
-  @@map("UserHistories")
+  @@map("Menus")
 }
+
