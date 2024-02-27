@@ -13,11 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id Int @id @default(autoincrement()) @map("Category_Id")
-  name String @map(name)
-  order int @map(order)   
+model Categories {
+  categoryId Int    @id @default(autoincrement()) @map("categoryId")
+  name       String @map("name")
+  order      Int    @map("order")   
 
-  Menu     Menu[]
-  @@map("Category") 
+  menus      Menus[]
+
+  @@map("Categories") 
 }
+
+enum MenuStatus {
+  FOR_SALE
+  SOLD_OUT
+}
+
+model Menus {
+  menuId      Int         @id @default(autoincrement()) @map("menuId")
+  categoryId  Int         @map("categoryId")
+  name        String      @map("name")
+  description String      @map("description")
+  image       String      @map("image")
+  price       Int         @map("price")
+  status      MenuStatus  @default(FOR_SALE) @map("status")
+  order       Int         @map("order") 
+  category    Categories  @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
+
+  @@map("Menus")
+}
+
