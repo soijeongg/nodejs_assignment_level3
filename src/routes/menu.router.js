@@ -88,6 +88,15 @@ router.post('/:categoryId/menus', async (req, res, next) => {
     }
     const { error: menuError } = menuSchema.validate(req.body);
     if (menuError) {
+      const isPriceInvalid = menuError.details.some(
+        (detail) =>
+          detail.path.includes('price') && detail.type === 'number.min'
+      );
+      if (isPriceInvalid) {
+        return res
+          .status(400)
+          .json({ message: '메뉴 가격은 0보다 작을 수 없습니다.' });
+      }
       return res
         .status(400)
         .json({ message: '요청 데이터 형식이 올바르지 않습니다.' });
@@ -101,18 +110,27 @@ router.post('/:categoryId/menus', async (req, res, next) => {
     if (!category) {
       return res.status(404).json({ message: '존재하지 않는 카테고리입니다.' });
     }
-    const menu = await prisma.categories.create({
+    const lastMenu = await prisma.menus.findFirst({
+      where: {
+        categoryId,
+      },
+      orderBy: {
+        order: 'desc',
+      },
+    });
+    const order = lastMenu ? lastMenu.order + 1 : 1;
+    await prisma.categories.create({
       data: {
         categoryId,
         name: req.body.name,
         description: req.body.description,
         image: req.body.image,
         price: req.body.price,
+        order,
       },
     });
     return res.status(201).json({ message: '메뉴를 등록하였습니다.' });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });
