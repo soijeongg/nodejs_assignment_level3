@@ -13,7 +13,7 @@
 
 ## 프로젝트 링크
 
-[Nodejslv3](#)
+[Nodejslv3](http://52.79.208.218:3000/api/categories)
 
 ## 프로젝트 진행
 
