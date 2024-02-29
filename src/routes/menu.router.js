@@ -27,11 +27,6 @@ const menuStatusSchema = Joi.object({
 });
 router.post('/:categoryId/menus', async (req, res, next) => {
   try {
-    if (!req.body || !req.params) {
-      return res
-        .status(400)
-        .json({ message: '데이터 형식이 올바르지 않습니다.' });
-    }
     const { error: categoryError } = categorySchema.validate(req.params);
     if (categoryError) {
       return res
@@ -91,11 +86,6 @@ router.post('/:categoryId/menus', async (req, res, next) => {
 
 router.get('/:categoryId/menus', async (req, res, next) => {
   try {
-    if (!req.params) {
-      return res
-        .status(400)
-        .json({ message: '데이터 형식이 올바르지 않습니다.' });
-    }
     const { error: categoryError } = categorySchema.validate(req.params);
     if (categoryError) {
       return res
@@ -139,11 +129,6 @@ router.get('/:categoryId/menus', async (req, res, next) => {
 });
 router.get('/:categoryId/menus/:menuId', async (req, res, next) => {
   try {
-    if (!req.params) {
-      return res
-        .status(400)
-        .json({ message: '데이터 형식이 올바르지 않습니다.' });
-    }
     const { error: paramsError } = caregoryandmenuSchema.validate(req.params);
     if (paramsError) {
       return res
@@ -158,7 +143,7 @@ router.get('/:categoryId/menus/:menuId', async (req, res, next) => {
     if (!category) {
       return res.status(404).json({ message: '존재하지 않는 카테고리입니다.' });
     }
-    const { error: bodyError } = menuSchema.validate(req.body);
+
     const menu = await prisma.Menus.findFirst({
       where: {
         menuId: +req.params.menuId,
@@ -189,11 +174,6 @@ router.get('/:categoryId/menus/:menuId', async (req, res, next) => {
 
 router.put('/:categoryId/menus/:menuId', async (req, res, next) => {
   try {
-    if (!req.params || !req.body) {
-      return res
-        .status(400)
-        .json({ message: '데이터 형식이 올바르지 않습니다.' });
-    }
     const { error: paramsError } = caregoryandmenuSchema.validate(req.params);
     if (paramsError) {
       return res
