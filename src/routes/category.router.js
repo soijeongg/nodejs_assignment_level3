@@ -11,6 +11,9 @@ const schema = Joi.object({
 const schemas = Joi.object({
   name: Joi.string().required()
 });
+const idSchemas = Joi.object({
+  id: Joi.number().integer().required()
+});
 //카테고리 전체 조회
 router.get('/', async (req, res, next) => {
     try{
@@ -87,6 +90,18 @@ if (validationResult.error){
 router.delete('/:categoryId', async (req, res,next) => {
     try{
   let { categoryId } = req.params;
+  const validationResults = idSchemas.validate({ categoryId });
+  if (validationResults.error) {
+    return res
+      .status(404)
+      .json({ message: '데이터 형식이 올바르지 않습니다.' });
+  }
+  let categoryfind = await prisma.Categories.findFirst({
+    where: { categoryId: +categoryId },
+  });
+  if (!categoryfind) {
+    return res.status(404).json({ message: '존재하지 않는 카테고리입니다' });
+  }
   await prisma.Menus.deleteMany({
     where: {
       categoryId: +categoryId,
@@ -96,7 +111,7 @@ router.delete('/:categoryId', async (req, res,next) => {
     where: { categoryId: +categoryId },
   });
   if (!deleteOne) {
-    return res.status(404).json({ message: '존재하지 않는 카테고리입니다' });
+    return res.status(404).json({ message: '삭제에 실패했습니다.' });
   }
 
   return res.status(200).json({ message: '카테고리 정보를 삭제하였습니다.' });
