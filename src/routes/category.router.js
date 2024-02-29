@@ -12,7 +12,7 @@ const schemas = Joi.object({
   name: Joi.string().required()
 });
 const idSchemas = Joi.object({
-  id: Joi.number().integer().required()
+  categoryId: Joi.number().integer().required(),
 });
 //카테고리 전체 조회
 router.get('/', async (req, res, next) => {
