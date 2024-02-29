@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import CategoryRouter from './src/routes/category.router.js';
-import MenuRouter from './src/routes/menu.router.js';
-import notFoundErrorHandler from './src/middlewares/notFoundError.middleware.js';
-import generalErrorHandler from './src/middlewares/generalError.middleware.js';
+import CategoryRouter from './routes/category.router.js';
+import MenuRouter from './routes/menu.router.js';
+import notFoundErrorHandler from './middlewares/notFoundError.middleware.js';
+import generalErrorHandler from './middlewares/generalError.middleware.js';
 dotenv.config();
 
 const app = express();
