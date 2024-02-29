@@ -33,12 +33,7 @@ return res.status(200).json({data:category})
 router.post('/', async(req, res,next)=> {
 
     try{//없으면 
-      let {name} = req.body
-
-    if(!name){
-        return res.status(400),json({errorMessage:"데이터 형식이 올바르지 않습니다"})
-    }
-    
+    let { name } = req.body;
     const validationResult = schemas.validate({ name });
     if (validationResult.error) {
       return res
@@ -65,11 +60,6 @@ router.put('/:categoryId', async (req, res, next) => {
 try{
   let { categoryId } = req.params;
   const { name, order } = req.body;
-  if (!categoryId || !name || !order) {
-    return res
-      .status(400)
-      .json({ message: '데이터 형식이 올바르지 않습니다.' });
-  }
 const validationResult = schema.validate({ name, order });
 if (validationResult.error){
   return res
@@ -97,11 +87,6 @@ if (validationResult.error){
 router.delete('/:categoryId', async (req, res,next) => {
     try{
   let { categoryId } = req.params;
-  if (!categoryId) {
-    return res
-      .status(400)
-      .json({ message: '데이터 형식이 올바르지 않습니다.' });
-  }
   await prisma.Menus.deleteMany({
     where: {
       categoryId: +categoryId,
