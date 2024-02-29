@@ -102,11 +102,6 @@ router.delete('/:categoryId', async (req, res,next) => {
   if (!categoryfind) {
     return res.status(404).json({ message: '존재하지 않는 카테고리입니다' });
   }
-  await prisma.Menus.deleteMany({
-    where: {
-      categoryId: +categoryId,
-    },
-  });
   let deleteOne = await prisma.Categories.delete({
     where: { categoryId: +categoryId },
   });
