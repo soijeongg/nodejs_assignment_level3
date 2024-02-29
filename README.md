@@ -11,6 +11,10 @@
    - 카테고리 작성, 카테고리 조회, 카테고리수정, 카테고리별 메뉴 조회!
    - 메뉴 등록, 메뉴 조회 , 메뉴 상세조회, 메뉴 수정, 메뉴 삭제
 
+## ERD 작성
+[ERDlink](https://drawsql.app/teams/cshcho99s-team/diagrams/nodejslv3)
+![drawSQL-image-export-2024-02-29](https://github.com/soijeongg/nodejs_assignment_level3/assets/143411145/ba973a01-2e92-4c6b-b344-80ef44011660)
+
 ## 프로젝트 링크
 
 [Nodejslv3](http://52.79.208.218:3000/api/categories)
