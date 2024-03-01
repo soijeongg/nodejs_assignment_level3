@@ -36,12 +36,12 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    //없으면
     let { name } = req.body;
     const validationResult = schemas.validate({ name });
     if (validationResult.error) {
+      const error = new Error('데이터 형식이 올바르지 않습니다.');
       error.status = 400;
-      throw new Error('데이터 형식이 올바르지 않습니다.');
+      throw error;
     }
     const lastCategory = await prisma.categories.findFirst({
       orderBy: { order: 'desc' },
@@ -65,15 +65,17 @@ router.put('/:categoryId', async (req, res, next) => {
     const { name, order } = req.body;
     const validationResult = schema.validate({ name, order });
     if (validationResult.error) {
+      const error = new Error('데이터 형식이 올바르지 않습니다.');
       error.status = 404;
-      throw new Error('데이터 형식이 올바르지 않습니다.');
+      throw error;
     }
     let categoryfind = await prisma.categories.findFirst({
       where: { categoryId: +categoryId },
     });
     if (!categoryfind) {
+      const error = new Error('존재하지 않는 카테고리입니다.');
       error.status = 404;
-      throw new Error('존재하지 않는 카테고리입니다.');
+      throw error;
     }
     await prisma.categories.update({
       data: { name, order },
@@ -92,22 +94,25 @@ router.delete('/:categoryId', async (req, res, next) => {
     let { categoryId } = req.params;
     const validationResults = idSchemas.validate({ categoryId });
     if (validationResults.error) {
+      const error = new Error('데이터 형식이 올바르지 않습니다.');
       error.status = 404;
-      throw new Error('데이터 형식이 올바르지 않습니다.');
+      throw error;
     }
-    let categoryfind = await prisma.Categories.findFirst({
+    let categoryfind = await prisma.categories.findFirst({
       where: { categoryId: +categoryId },
     });
     if (!categoryfind) {
+      const error = new Error('존재하지 않는 카테고리입니다.');
       error.status = 404;
-      throw new Error('존재하지 않는 카테고리입니다.');
+      throw error;
     }
-    let deleteOne = await prisma.Categories.delete({
+    let deleteOne = await prisma.categories.delete({
       where: { categoryId: +categoryId },
     });
     if (!deleteOne) {
+      const error = new Error('삭제에 실패했습니다.');
       error.status = 404;
-      throw new Error('삭제에 실패했습니다.');
+      throw error;
     }
     return res.status(200).json({ message: '카테고리 정보를 삭제하였습니다.' });
   } catch (error) {
